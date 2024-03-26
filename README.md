@@ -27,3 +27,26 @@ This assignment consists of various tasks
 ## Deployed links
 
 - Backend: https://pioneer-labs-assignment.onrender.com
+
+### Task1: Implement User Authentication with JWT
+
+#### API Endpoints:
+
+- /users/register
+  - Used to register user with name,email and password
+  - Method: POST
+  - Request Body:
+```json
+  {
+    "name":"Sree Harsha",
+    "email":"sreeharsha.kamisetty99@gmail.com",
+    "password":"harsha1234"
+}
+```
+  - Response:
+```json
+{
+    "Message": "New user has been created"
+}
+```
+
