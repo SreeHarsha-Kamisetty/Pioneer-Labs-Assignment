@@ -6,9 +6,21 @@ const { ApiDataRouter } = require("./routes/apidata.routes");
 const { ProtectedRoute } = require("./routes/protected.route");
 require("dotenv").config();
 const PORT = process.env.PORT || 8080;
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
 
 
-
+const options = {
+    definition:{
+        openapi:'3.0.0',
+        info:{
+            title: "Public Api List",
+            version: "1.0.0",
+        },
+    },
+    apis:["./routes/*.js"],
+}
+const openAPISpecification = swaggerJsdoc(options);
 
 const app = express();
 app.use(cors());
@@ -18,9 +30,11 @@ app.use(express.json());
 app.use("/users",UserRouter)
 app.use("/api",ApiDataRouter)
 app.use("/protected",ProtectedRoute);
-app.get("/",(req,res)=>{
-    res.send("Home")
-})
+
+app.use("/",swaggerUI.serve,swaggerUI.setup(openAPISpecification));
+// app.get("/",(req,res)=>{
+//     res.send("Home")
+// })
 
 
 app.listen(PORT,async()=>{
