@@ -16,6 +16,11 @@ const options = {
         info:{
             title: "Public Api List",
             version: "1.0.0",
+            servers:[
+                {
+                    url: "https://pioneer-labs-assignment.onrender.com"
+                }
+            ]
         },
         components: {
             securitySchemes: {
