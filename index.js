@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { DBConnection } = require("./db");
 const { UserRouter } = require("./routes/user.routes");
+const { ApiDataRouter } = require("./routes/apidata.routes");
 require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 
 app.use("/users",UserRouter)
+app.use("/apidata",ApiDataRouter)
 app.get("/",(req,res)=>{
     res.send("Home")
 })
