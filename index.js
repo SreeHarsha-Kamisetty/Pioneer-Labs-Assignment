@@ -17,7 +17,16 @@ const options = {
             title: "Public Api List",
             version: "1.0.0",
         },
+        components: {
+            securitySchemes: {
+              BearerAuth: {
+                type: "http",
+                scheme: "bearer",
+              },
+            },
+          },
     },
+    
     apis:["./routes/*.js"],
 }
 const openAPISpecification = swaggerJsdoc(options);

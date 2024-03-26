@@ -211,6 +211,8 @@ UserRouter.post("/login",async(req,res)=>{
  *  get:
  *      summary: Logout
  *      tags: [Users]
+ *      security:
+ *        - BearerAuth: []
  *      responses:
  *          200:
  *              description: Logout successful
@@ -234,12 +236,6 @@ UserRouter.post("/login",async(req,res)=>{
  *                                  type: string
  *                                  description: Server error
  *                                  default: Error during logout
- *      parameters:
- *          - name: Authorization
- *            in: header
- *            description: Access token
- *            required: true
- *            type: string
  * 
  */
 
@@ -248,8 +244,8 @@ UserRouter.post("/login",async(req,res)=>{
 UserRouter.get("/logout",async(req,res)=>{
 
     try {
-        let token = req.headers.authorization.split(" ")[1];
-
+        let token = req.headers.authorization?.split(" ")[1];
+        if(!token) return res.status(400).json({Message:"User not logged in"})
         let blacklistToken = new BlackListModel({accessToken:token})
     
         await blacklistToken.save();

@@ -7,7 +7,8 @@ const auth = async(req,res,next)=>{
 
     try {
         let token = req.headers.authorization?.split(" ")[1];
-
+        
+        console.log(req.headers)
         if(!token) return res.status(401).json({Message:"Please login to continue"})
 
         let expiredToken = await BlackListModel.findOne({accessToken:token});
@@ -16,7 +17,8 @@ const auth = async(req,res,next)=>{
 
         let result = jwt.verify(token, process.env.SECRET_KEY);
 
-        if(result) next();
+        if(!result) return;
+        next();
     } catch (error) {
         res.status(401).json({Message:"Unauthorized"})
     }
