@@ -15,7 +15,7 @@ app.use(express.json());
 
 
 app.use("/users",UserRouter)
-app.use("/apidata",ApiDataRouter)
+app.use("/api",ApiDataRouter)
 app.get("/",(req,res)=>{
     res.send("Home")
 })
