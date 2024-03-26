@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UserModel } = require("../models/user.model");
+const { BlackListModel } = require("../models/blacklisttoken.model");
 require("dotenv").config();
 const UserRouter = express.Router();
 
@@ -61,6 +62,24 @@ UserRouter.post("/login",async(req,res)=>{
     }
 })
 
+UserRouter.get("/logout",async(req,res)=>{
+
+    try {
+        let token = req.headers.authorization.split(" ")[1];
+
+        let blacklistToken = new BlackListModel({accessToken:token})
+    
+        await blacklistToken.save();
+    
+        res.status(200).json({Message:"Successfully logged out!"});
+    
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({Error:"Error during logout"});
+    }
+
+    
+})
 module.exports = {
   UserRouter,
 };
