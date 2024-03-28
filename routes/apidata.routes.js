@@ -72,20 +72,30 @@ const ApiDataRouter = express.Router();
 ApiDataRouter.get("/data", async (req, res) => {
   try {
     let { category, limit, page } = req.query;
-
+    
+    console.log(Object.keys(req.query))
+    for(let a of Object.keys(req.query)){
+      console.log(a);
+      if(!(["category","page","limit"].includes(a))){
+        category += `&${a}`
+      }
+    }
+    console.log(category)
     let response = await axios("https://api.publicapis.org/entries");
     
     let data = response.data.entries;
 
     if(category){
-        data = data.filter((item) => item.Category.toLowerCase() == category);
+      
+        data = data.filter((item) => item.Category.toLowerCase() == category.toLowerCase());
     }
     
-
+    page = page || 1;
+    limit = limit || 10;
     if (page || limit) {
-      let start = page * limit;
+      let start = (page-1) * limit;
       let end = start + limit;
-      data = data.splice(start, limit);
+      data = data.slice(start, end);
     }
     let count = data.length;
     if (count === 0)
